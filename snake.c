@@ -20,7 +20,7 @@ typedef enum {
     SNAKE_IS_FINE,
     SNAKE_IS_DEAD,
     SNAKE_HAS_EATEN,
-} SnakeSituation;
+} snake_situation;
 
 typedef void (*print_snake_func)(snake_part*);
 typedef void (*remove_last_func)(position);
@@ -34,8 +34,8 @@ void printColor(snake_part* snake);
 void printFruit(position fruit);
 void removeChar(position pos);
 void removeColor(position pos);
-SnakeSituation parseMove(snake_part* snake, position fruit, int key, remove_last_func removeLast);
-SnakeSituation moveSnake(snake_part* snake, position fruit, position inc, remove_last_func removeLast);
+snake_situation parseMove(snake_part* snake, position fruit, int key, remove_last_func removeLast);
+snake_situation moveSnake(snake_part* snake, position fruit, position inc, remove_last_func removeLast);
 void snakeDied(void);
 void cleanSnake(snake_part* snake);
 
@@ -74,7 +74,7 @@ int main(void) {
 
     int key = 0;
     do {
-        SnakeSituation sit = parseMove(snake, fruit, key, removeLast);
+        snake_situation sit = parseMove(snake, fruit, key, removeLast);
         if (sit == SNAKE_IS_DEAD) break;
         else if (sit == SNAKE_HAS_EATEN) {
             ++score;
@@ -179,7 +179,7 @@ void removeColor(position pos) {
     mvchgat(pos.y, pos.x, 1, A_NORMAL, 0, NULL);
 }
 
-SnakeSituation parseMove(snake_part* snake, position fruit, int key, remove_last_func removeLast) {
+snake_situation parseMove(snake_part* snake, position fruit, int key, remove_last_func removeLast) {
     static int last = KEY_RIGHT;
     switch (key) {
         case KEY_UP:
@@ -203,7 +203,7 @@ SnakeSituation parseMove(snake_part* snake, position fruit, int key, remove_last
     }
 }
 
-SnakeSituation moveSnake(snake_part* snake, position fruit, position inc, remove_last_func removeLast) {
+snake_situation moveSnake(snake_part* snake, position fruit, position inc, remove_last_func removeLast) {
     position max =  {
         getmaxx(stdscr) - 1,
         getmaxy(stdscr) - 1
